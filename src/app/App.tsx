@@ -1,20 +1,23 @@
-import { Route, Routes } from 'react-router-dom';
-import './App.css';
-import { Header } from './header';
-import { Items } from './items';
+import { Route, Routes } from 'react-router-dom'
+import './App.css'
+import { Header } from './header'
+import { Items } from './items'
+import { Welcome } from './welcome'
 
 function App() {
   return (
-    <>
-      <Header />
-      <main>
-        <Routes>
-          <Route path='/' element={<h1>Welcome to Pack-it!</h1>} />
-          <Route path='/items' element={<Items />} />
-        </Routes>
+    <body className="app">
+      <main className="content">
+        <Header />
+        <section className="section">
+          <Routes>
+            <Route path="/" element={<Welcome />} />
+            <Route path="/items" element={<Items />} />
+          </Routes>
+        </section>
       </main>
-    </>
-  );
+    </body>
+  )
 }
 
-export default App;
+export default App
