@@ -1,23 +1,31 @@
+import { ThemeProvider } from '@emotion/react'
+import { createTheme } from '@mui/material/styles'
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import { Header } from './header'
-import { Items } from './items'
+import { Inventory } from './inventory'
 import { Welcome } from './welcome'
 
 function App() {
   return (
-    <body className="app">
-      <main className="content">
-        <Header />
-        <section className="section">
-          <Routes>
-            <Route path="/" element={<Welcome />} />
-            <Route path="/items" element={<Items />} />
-          </Routes>
-        </section>
-      </main>
-    </body>
+    <ThemeProvider theme={theme}>
+      <body className="app">
+        <main className="content">
+          <Header />
+          <section className="section">
+            <Routes>
+              <Route path="/" element={<Welcome />} />
+              <Route path="/inventory" element={<Inventory />} />
+            </Routes>
+          </section>
+        </main>
+      </body>
+    </ThemeProvider>
   )
 }
 
 export default App
+
+const theme = createTheme({
+  typography: { fontFamily: 'Monaco' },
+})
