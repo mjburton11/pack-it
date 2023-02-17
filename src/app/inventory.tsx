@@ -1,4 +1,6 @@
-import { TextField } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import { IconButton, TextField } from '@mui/material'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -48,6 +50,12 @@ export function Inventory() {
     }
   }
 
+  const deleteItem = (index: number) => {
+    const temp = [...items]
+    temp.splice(index, 1)
+    setItems(temp)
+  }
+
   return (
     <main className="pi-page">
       <h1 className="pi-header">Inventory </h1>
@@ -59,18 +67,30 @@ export function Inventory() {
               <TableCell sx={boldFont} align="right">
                 Quantity
               </TableCell>
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((row) => (
+            {items.map((row, i) => (
               <TableRow
-                key={row.name}
+                key={i.toString()}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
                 <TableCell align="right">{row.quantity}</TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ display: 'flex', justifyContent: 'space-evenly' }}
+                >
+                  <IconButton size="small">
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton size="small" onClick={() => deleteItem(i)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
               </TableRow>
             ))}
             <TableRow>
@@ -123,6 +143,7 @@ export function Inventory() {
                   value={newItem.quantity || ''}
                 ></TextField>
               </TableCell>
+              <TableCell />
             </TableRow>
           </TableBody>
         </Table>
