@@ -1,19 +1,15 @@
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import { IconButton, TextField } from '@mui/material'
+import { IconButton } from '@mui/material'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import './App.css'
-
-type Item = {
-  name: string
-  quantity: number
-}
+import { EditInventory, Item } from './edit-inventory'
 
 const defaultItem = { name: '', quantity: 0 }
 
@@ -24,30 +20,22 @@ export function Inventory() {
     { name: 't-shirt', quantity: 3 },
     { name: 'pants', quantity: 6 },
   ])
-  const [newItem, setNewItem] = useState<Item>(defaultItem)
-  const [invalid, setInvalid] = useState({ name: false, quantity: false })
+  const [editItem, setEditItem] = useState<Item>(defaultItem)
+  const [itemIndex, setItemIndex] = useState<number | null>(null)
 
-  const updateNewName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewItem({ ...newItem, name: event.target.value })
+  const updateItem = (patch: Partial<Item>) => {
+    setEditItem({ ...editItem, ...patch })
   }
-  const updateNewQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewItem({
-      ...newItem,
-      quantity: +event.target.value,
-    })
-  }
-  const saveNewItem = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      if (newItem.name !== '' && newItem.quantity !== 0) {
-        setItems([...items, newItem])
-        setNewItem(defaultItem)
-        setInvalid({ name: false, quantity: false })
-      }
-      setInvalid({
-        name: newItem.name === '',
-        quantity: newItem.quantity === 0,
-      })
+  const saveNewItem = () => {
+    if (itemIndex !== null) {
+      setItems(
+        items.map((item, index) => (index === itemIndex ? editItem : item))
+      )
+    } else {
+      setItems([...items, editItem])
     }
+    setEditItem(defaultItem)
+    setItemIndex(null)
   }
 
   const deleteItem = (index: number) => {
@@ -71,80 +59,53 @@ export function Inventory() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((row, i) => (
-              <TableRow
-                key={i.toString()}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.quantity}</TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ display: 'flex', justifyContent: 'space-evenly' }}
+            {items.map((row, i) =>
+              itemIndex === i ? (
+                <EditInventory
+                  key={i.toString()}
+                  name={editItem.name}
+                  quantity={editItem.quantity}
+                  updateItem={updateItem}
+                  saveItem={saveNewItem}
+                />
+              ) : (
+                <TableRow
+                  key={i.toString()}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <IconButton size="small">
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton size="small" onClick={() => deleteItem(i)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-            <TableRow>
-              <TableCell>
-                <TextField
-                  sx={{
-                    fontSize: '14px',
-                    fontStyle: 'italic',
-                  }}
-                  fullWidth
-                  variant="standard"
-                  InputProps={{
-                    disableUnderline: !invalid.name,
-                    sx: {
-                      fontSize: '14px',
-                      fontStyle: 'italic',
-                    },
-                  }}
-                  id="new-item"
-                  placeholder="New item"
-                  size="small"
-                  margin="none"
-                  type="text"
-                  error={invalid.name}
-                  onChange={updateNewName}
-                  onKeyDown={saveNewItem}
-                  value={newItem.name}
-                ></TextField>
-              </TableCell>
-              <TableCell align="right">
-                <TextField
-                  variant="standard"
-                  fullWidth
-                  InputProps={{
-                    disableUnderline: !invalid.quantity,
-                    sx: {
-                      fontSize: '14px',
-                      fontStyle: 'italic',
-                      direction: 'rtl',
-                    },
-                  }}
-                  error={invalid.quantity}
-                  id="new-quantity"
-                  placeholder="Quantity"
-                  size="small"
-                  margin="none"
-                  type="number"
-                  onChange={updateNewQuantity}
-                  onKeyDown={saveNewItem}
-                  value={newItem.quantity || ''}
-                ></TextField>
-              </TableCell>
-              <TableCell />
-            </TableRow>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="right">{row.quantity}</TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ display: 'flex', justifyContent: 'space-evenly' }}
+                  >
+                    <IconButton
+                      size="small"
+                      onClick={() => {
+                        setEditItem(row)
+                        setItemIndex(i)
+                      }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton size="small" onClick={() => deleteItem(i)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              )
+            )}
+            <EditInventory
+              key="newItem"
+              name={itemIndex === null ? editItem.name : defaultItem.name}
+              quantity={
+                itemIndex === null ? editItem.quantity : defaultItem.quantity
+              }
+              saveItem={saveNewItem}
+              updateItem={updateItem}
+            />
           </TableBody>
         </Table>
       </TableContainer>

@@ -9,7 +9,7 @@ import { Welcome } from './welcome'
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <body className="app">
+      <div className="app">
         <main className="content">
           <Header />
           <section className="section">
@@ -19,7 +19,7 @@ function App() {
             </Routes>
           </section>
         </main>
-      </body>
+      </div>
     </ThemeProvider>
   )
 }
