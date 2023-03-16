@@ -1,48 +1,48 @@
-import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
-import { IconButton } from '@mui/material'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import { useState } from 'react'
-import './App.css'
-import { EditInventory, Item } from './edit-inventory'
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { IconButton } from '@mui/material';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import { useState } from 'react';
+import './App.css';
+import { EditInventory, Item } from './edit-inventory';
 
-const defaultItem = { name: '', quantity: 0 }
+const defaultItem = { name: '', quantity: 0 };
 
 export function Inventory() {
-  const boldFont = { fontWeight: 'bold' }
+  const boldFont = { fontWeight: 'bold' };
 
   const [items, setItems] = useState<Item[]>([
     { name: 't-shirt', quantity: 3 },
     { name: 'pants', quantity: 6 },
-  ])
-  const [editItem, setEditItem] = useState<Item>(defaultItem)
-  const [itemIndex, setItemIndex] = useState<number | null>(null)
+  ]);
+  const [editItem, setEditItem] = useState<Item>(defaultItem);
+  const [itemIndex, setItemIndex] = useState<number | null>(null);
 
   const updateItem = (patch: Partial<Item>) => {
-    setEditItem({ ...editItem, ...patch })
-  }
+    setEditItem({ ...editItem, ...patch });
+  };
   const saveNewItem = () => {
     if (itemIndex !== null) {
       setItems(
         items.map((item, index) => (index === itemIndex ? editItem : item))
-      )
+      );
     } else {
-      setItems([...items, editItem])
+      setItems([...items, editItem]);
     }
-    setEditItem(defaultItem)
-    setItemIndex(null)
-  }
+    setEditItem(defaultItem);
+    setItemIndex(null);
+  };
 
   const deleteItem = (index: number) => {
-    const temp = [...items]
-    temp.splice(index, 1)
-    setItems(temp)
-  }
+    const temp = [...items];
+    temp.splice(index, 1);
+    setItems(temp);
+  };
 
   return (
     <main className="pi-page">
@@ -84,8 +84,8 @@ export function Inventory() {
                     <IconButton
                       size="small"
                       onClick={() => {
-                        setEditItem(row)
-                        setItemIndex(i)
+                        setEditItem(row);
+                        setItemIndex(i);
                       }}
                     >
                       <EditIcon />
@@ -110,5 +110,5 @@ export function Inventory() {
         </Table>
       </TableContainer>
     </main>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router-dom'
-import './header.css'
+import { NavLink } from 'react-router-dom';
+import './header.css';
 
 export function Header() {
   return (
@@ -11,5 +11,5 @@ export function Header() {
         Inventory
       </NavLink>
     </nav>
-  )
+  );
 }

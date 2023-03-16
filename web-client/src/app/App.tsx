@@ -1,10 +1,10 @@
-import { ThemeProvider } from '@emotion/react'
-import { createTheme } from '@mui/material/styles'
-import { Route, Routes } from 'react-router-dom'
-import './App.css'
-import { Header } from './header'
-import { Inventory } from './inventory'
-import { Welcome } from './welcome'
+import { ThemeProvider } from '@emotion/react';
+import { createTheme } from '@mui/material/styles';
+import { Route, Routes } from 'react-router-dom';
+import './App.css';
+import { Header } from './header';
+import { Inventory } from './inventory';
+import { Welcome } from './welcome';
 
 function App() {
   return (
@@ -21,11 +21,11 @@ function App() {
         </main>
       </div>
     </ThemeProvider>
-  )
+  );
 }
 
-export default App
+export default App;
 
 const theme = createTheme({
   typography: { fontFamily: 'Monaco' },
-})
+});

@@ -1,22 +1,22 @@
-import TableCell from '@mui/material/TableCell'
-import TableRow from '@mui/material/TableRow'
-import TextField from '@mui/material/TextField'
-import { useState } from 'react'
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import TextField from '@mui/material/TextField';
+import { useState } from 'react';
 
 export type Item = {
-  name: string
-  quantity: number
-}
+  name: string;
+  quantity: number;
+};
 
-type KeyboardEvent = React.KeyboardEvent<HTMLInputElement>
-type ChangeEvent = React.ChangeEvent<HTMLInputElement>
+type KeyboardEvent = React.KeyboardEvent<HTMLInputElement>;
+type ChangeEvent = React.ChangeEvent<HTMLInputElement>;
 
 export type EditInventoryProps = {
-  name: string
-  quantity: number
-  saveItem: () => void
-  updateItem: (patch: Partial<Item>) => void
-}
+  name: string;
+  quantity: number;
+  saveItem: () => void;
+  updateItem: (patch: Partial<Item>) => void;
+};
 
 export function EditInventory({
   name,
@@ -24,17 +24,17 @@ export function EditInventory({
   saveItem,
   updateItem,
 }: EditInventoryProps) {
-  const [invalid, setInvalid] = useState({ name: false, quantity: false })
+  const [invalid, setInvalid] = useState({ name: false, quantity: false });
   const checkIsValid = () => {
     if (name !== '' && quantity !== 0) {
-      saveItem()
-      setInvalid({ name: false, quantity: false })
+      saveItem();
+      setInvalid({ name: false, quantity: false });
     }
     setInvalid({
       name: name === '',
       quantity: quantity === 0,
-    })
-  }
+    });
+  };
 
   return (
     <TableRow>
@@ -91,5 +91,5 @@ export function EditInventory({
       </TableCell>
       <TableCell />
     </TableRow>
-  )
+  );
 }
