@@ -32,8 +32,11 @@ jobs:
         with:
           node-version: 14.x
       - name: Install dependencies
+        working-directory: ./web-client
         run: yarn
       - name: Build
+        working-directory: ./web-client
         run: yarn build
       - name: Deploy
+        working-directory: ./web-client
         run: aws s3 sync ./build s3://pack-it
