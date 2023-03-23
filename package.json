@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "description": "Coolest packing application in the world!",
   "scripts": {
-    "start": "cd client && npm start"
+    "start": "concurrently \"cd api && npm run dev\" \"cd web-client && npm start\""
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "dependencies": {}
 }
